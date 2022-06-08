@@ -1,28 +1,40 @@
 import './css/styles.css';
-// import debounce from 'lodash.throttle';
+// import debounce from 'lodash.debounce';
 
-const countryInfo = document.querySelector('.country-list');
+const countryInfo = document.querySelector('.country-info');
 
 const DEBOUNCE_DELAY = 300;
 
+// countryInfo.insertAdjacentHTML('afterbegin', makeCountryMarkup);
 
 // fetchCountries('https://restcountries.com/v3.1/name/{name}')
 
-fetch('https://restcountries.com/v3.1/name/peru')
-    .then(response => {
+
+
+function makeCountryMarkup({ name, capital, population, flags, languages }) {
+    countryInfo.classList.remove('is-hidden');
+    return `<h3 class="country"><img src="${flags.png}" alt="flag" width = 30px> ${name.official}</h3>
+    <p class="info">Capital: ${capital}</p>
+    <p class="info">Populatio: ${population}</p>
+    <p class="info">Languages: ${Object.values(languages)}</p>`
     
-    return response.json();
-    })
-    .then(country => {
-    console.log(country);
-    })
+};
+fetchCountryByName().then(renderCountryCard)
     .catch(error => {
     console.log(error)
 });
 
-function makeCountryMarkup({ name, capital, population, flags, languages }) {
-    countryInfo.classList.remove('is-hidden');
-    return ``
+function fetchCountryByName() {
+    return fetch('https://restcountries.com/v3.1/name/peru')
+    .then(response => {
+    
+    return response.json();
+    })
 }
 
-// https://restcountries.com/v2/{service}?fields={field},{field},{field}
+
+
+function renderCountryCard(country) {
+    const markup = makeCountryMarkup(country);
+    countryInfo.innerHTML = markup;
+}
