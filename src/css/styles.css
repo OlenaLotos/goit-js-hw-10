@@ -18,3 +18,9 @@ body {
   max-width: 320px;
   margin-bottom: 16px;
 }
+
+.card-container {
+  background-color:beige;
+  max-width: 400px;
+  border-radius: 20px;
+}

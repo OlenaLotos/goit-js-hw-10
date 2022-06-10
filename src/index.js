@@ -1,40 +1,46 @@
 import './css/styles.css';
-// import debounce from 'lodash.debounce';
-
-const countryInfo = document.querySelector('.country-info');
+import debounce from 'lodash.debounce';
 
 const DEBOUNCE_DELAY = 300;
 
-// countryInfo.insertAdjacentHTML('afterbegin', makeCountryMarkup);
+const countryInformation = document.querySelector('.country-info');
+const input = document.querySelector('#search-box').value;
 
-// fetchCountries('https://restcountries.com/v3.1/name/{name}')
+// input.addEventListener('input', debounce(onSearch, DEBOUNCE_DELAY));
 
-
-
-function makeCountryMarkup({ name, capital, population, flags, languages }) {
-    countryInfo.classList.remove('is-hidden');
-    return `<h3 class="country"><img src="${flags.png}" alt="flag" width = 30px> ${name.official}</h3>
-    <p class="info">Capital: ${capital}</p>
-    <p class="info">Populatio: ${population}</p>
-    <p class="info">Languages: ${Object.values(languages)}</p>`
-    
-};
-fetchCountryByName().then(renderCountryCard)
-    .catch(error => {
-    console.log(error)
-});
-
-function fetchCountryByName() {
-    return fetch('https://restcountries.com/v3.1/name/peru')
-    .then(response => {
-    
-    return response.json();
-    })
-}
+// function onSearch(event) {
+//     event.preventDefault();
+//     input.trim();
+// }
 
 
+    fetchCountries().then(renderCountries)
+        .catch(error => {
+            console.log(error)
+        });
 
-function renderCountryCard(country) {
-    const markup = makeCountryMarkup(country);
-    countryInfo.innerHTML = markup;
-}
+      function fetchCountries() {
+        return fetch(`https://restcountries.com/v2/all?fields=name,capital,population,flags,languages`)
+            .then(response => {
+                return response.json();
+            });
+    }
+
+
+    function renderCountries(countries) {
+        const markup = countries
+            .map(({ name, capital, population, flags, languages }) => {
+                return `<div class="card-container"><h2 class="country"><img src="${flags.svg
+                    }" alt="country flags" width = 40px> ${name}</h2>
+          <p class="capital">Capital: ${capital} </p>
+          <p class="population">Population: ${population} </p>
+         <p class="languages">Languages: ${Object.values(languages)}</p></div>`;       
+            })
+            .join('');
+
+        countryInformation.innerHTML = markup;
+    }
+
+
+
+
