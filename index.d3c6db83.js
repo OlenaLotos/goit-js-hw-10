@@ -1,2 +1,0 @@
-const n=document.querySelector(".country-info");fetch("https://restcountries.com/v3.1/name/peru").then((n=>n.json())).then((function(t){const o=function({name:t,capital:o,population:s,flags:a,languages:c}){return n.classList.remove("is-hidden"),`<h3 class="country"><img src="${a.png}" alt="flag" width = 30px> ${t.official}</h3>\n    <p class="info">Capital: ${o}</p>\n    <p class="info">Populatio: ${s}</p>\n    <p class="info">Languages: ${Object.values(c)}</p>`}(t);n.innerHTML=o})).catch((n=>{console.log(n)}));
-//# sourceMappingURL=index.d3c6db83.js.map
